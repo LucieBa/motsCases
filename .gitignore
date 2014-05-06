@@ -1,0 +1,57 @@
+#################  
+## openFrameworks  
+#################  
+
+[Bb]in/*  
+![Bb]in/data/  
+[Bb]uild/  
+[Oo]bj/  
+*.o  
+[Dd]ebug*/  
+[Rr]elease*/  
+*.mode*  
+*.app/  
+*.pyc  
+*.log  
+
+#################  
+## Code::Blocks  
+#################  
+
+*.depend  
+*.layout
+
+
+############  
+## Windows  
+############  
+
+# Windows image file caches  
+Thumbs.db  
+
+# Folder config file  
+Desktop.ini
+
+# Compiled Object files
+*.slo
+*.lo
+*.obj
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+BuildGen.cbp
+BuildGen.layout
