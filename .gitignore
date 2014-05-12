@@ -12,7 +12,8 @@
 *.mode*  
 *.app/  
 *.pyc  
-*.log  
+*.log
+*.cbp
 
 #################  
 ## Code::Blocks  
