@@ -5,30 +5,38 @@
 
 using namespace std;
 
-/*********************************************************************************************
-*                                   Lecture des fichiers
-*********************************************************************************************/
-std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems)
-{
-    std::stringstream ss(s);
-    std::string item;
-    while (std::getline(ss, item, delim)) {
-        elems.push_back(item);
-    }
-    return elems;
-}
 
-std::vector<std::string> split(const std::string &s, char delim)
+string supprimerAccents(string message)
 {
-    std::vector<std::string> elems;
-    split(s, delim, elems);
-    return elems;
+    string accent("ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÌÍÎÏìíîïÙÚÛÜùúûüÿÑñÇç");
+    string sansAccent("AAAAAAaaaaaaOOOOOOooooooEEEEeeeeIIIIiiiiUUUUuuuuyNnCc");
+    int i=0,j=0,k=0,taille;
+ 
+    taille=message.size();
+ 
+    for (i=0;i<=taille;i++)
+    {
+        for(j=0;j<=104;j=j+2)
+        {
+            if((message[i]==accent[j])&&(message[i+1]==accent[j+1]))
+            {
+                message[i]=sansAccent[j/2];
+                for(k=i+1;k<taille;k++)
+                {
+                    message[k]=message[k+1];
+                }
+                message=message.substr(0,taille-1);
+                taille=message.size();
+            }
+        }
+    } 
+    return message;
 }
 
 /*********************************************************************************************
 *                                   Chargement des fichiers
 *********************************************************************************************/
-bool chargerSommetNom(const std::string& nomFichier, vector<Sommet>& sommets)
+bool chargerMots(const std::string& nomFichier)
 {
     ifstream fichier(nomFichier.c_str(), ios::in);
     if(fichier)
@@ -36,15 +44,12 @@ bool chargerSommetNom(const std::string& nomFichier, vector<Sommet>& sommets)
         string ligne;
         while(getline(fichier, ligne))
         {
-            // récupération de la chaine + split
-            vector<string> elements;
-            split(ligne, ';', elements);
-            // création du nouveau sommet
-            Sommet sommet;
-            sommet.Setindice(atoi(elements.at(0).c_str()));
-            sommet.Setnom(elements.at(1));
-            // on enregistre dans la liste des sommets
-            sommets.push_back(sommet);
+            // todo : vérifications sur le mots : pas d'espaces, pas de caractères spéciaux...
+            ligne = supprimerAccents(ligne);
+            // todo : tronquer les espaces
+            std::transform(ligne.begin(), ligne.end(), ligne.begin(), ::toupper);
+            cout << ligne.size() << endl;
+
         }
     }
     else
@@ -55,7 +60,7 @@ bool chargerSommetNom(const std::string& nomFichier, vector<Sommet>& sommets)
     return true;
 }
 
-bool chargerSommetPosition(const std::string& nomFichier, std::vector<Sommet>& sommets)
+/*bool chargerSommetPosition(const std::string& nomFichier, std::vector<Sommet>& sommets)
 {
     ifstream fichier(nomFichier.c_str(), ios::in);
     if(fichier)
@@ -154,7 +159,7 @@ bool chargerAretes(const std::string& nomFichier, std::vector<Arete>& aretes, st
 /*********************************************************************************************
 *                                   Affichages
 *********************************************************************************************/
-void afficherSommets(std::vector<Sommet>& sommets)
+/*void afficherSommets(std::vector<Sommet>& sommets)
 {
     for(int i=0;i<sommets.size(); i++)
         cout << sommets.at(i).Getindice() << " " << sommets.at(i).Getnom() << endl;
@@ -170,7 +175,7 @@ void afficherLignes(std::vector<Ligne>& lignes)
 /*********************************************************************************************
 *
 *********************************************************************************************/
-int trouverLigne(std::vector<Ligne>& lignes, string texte)
+/*int trouverLigne(std::vector<Ligne>& lignes, string texte)
 {
     for(int i = 0 ; i < lignes.size() ; i++)
     {
@@ -190,7 +195,7 @@ int trouverLigne(std::vector<Ligne>& lignes, string texte)
     return NULL;
 }*/
 
-int trouverSommet(std::vector<Sommet> sommets, int indice)
+/*int trouverSommet(std::vector<Sommet> sommets, int indice)
 {
     for(int i = 0 ; i < sommets.size() ; i++)
     {
@@ -198,4 +203,4 @@ int trouverSommet(std::vector<Sommet> sommets, int indice)
             return i;
     }
     return -1;
-}
+}*/
