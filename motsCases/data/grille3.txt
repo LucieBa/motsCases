@@ -1,0 +1,6 @@
+taille de la grille :
+5 3
+coordonnees en x et y des cases bloquees :
+1 0
+4 1
+2 2

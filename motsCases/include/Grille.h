@@ -1,17 +1,37 @@
+#ifndef GRILLE_H_INCLUDED
+#define GRILLE_H_INCLUDED
 
+#include <vector>
+#include <map>
+#include <string>
+#include <sstream>
+#include <iostream>
+#include <algorithm>
+#include <iterator>
+#include <fstream>
 
+using namespace std;
 
 class Grille
 {
 	private:
 		int h;
 		int l;
-		tab[20] <vector> mots;
-	public: 
+        map<int, vector<string> > dictionnaire;
+        vector< vector<bool> > etatGrille;
+	public:
+		// getters et setters
 		Grille();
 		~Grille();
-		setH(int val);
+		void setH(int val);
 		int getH();
-		setL(int val);
+		void setL(int val);
 		int getL();
-}
+		// les fonctions
+		bool chargerGrille(const string& nomFichier);
+		bool chargerMots(const string& nomFichier);
+		void afficherGrille();
+		void afficherDictionnaire();
+};
+
+#endif // GRILLE_H_INCLUDED

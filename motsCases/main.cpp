@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include "include/Fichier.h"
+#include "include/Grille.h"
 #include <string.h>
 
 int main()
@@ -21,8 +21,13 @@ int main()
         window.draw(shape);
         window.display();
     }*/
-
-    bool chargement = chargerMots("data/mots2.txt");
+    Grille grille;
+    if( grille.chargerGrille("data/grille3.txt") == false)
+        std::cout << "Une erreur s'est produite lors du chargement de la grille." << std::endl;
+    if( grille.chargerMots("data/mots2.txt") == false)
+        std::cout << "Une erreur s'est produite lors du chargement des mots." << std::endl;
+    grille.afficherGrille();
+    //bool chargement = chargerMots("data/mots2.txt");
 
     /*char *element = "Hello World";
     std::cout << (unsigned long)strlen(element) << std::endl;*/

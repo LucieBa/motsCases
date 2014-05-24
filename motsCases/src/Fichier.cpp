@@ -6,7 +6,7 @@
 using namespace std;
 
 
-string supprimerAccents(string message)
+/*string supprimerAccents(string message)
 {
     string accent("ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÌÍÎÏìíîïÙÚÛÜùúûüÿÑñÇç");
     string sansAccent("AAAAAAaaaaaaOOOOOOooooooEEEEeeeeIIIIiiiiUUUUuuuuyNnCc");
@@ -31,7 +31,7 @@ string supprimerAccents(string message)
         }
     } 
     return message;
-}
+}*/
 
 /*********************************************************************************************
 *                                   Chargement des fichiers
@@ -49,7 +49,7 @@ bool chargerMots(const std::string& nomFichier)
             // todo : tronquer les espaces
             std::transform(ligne.begin(), ligne.end(), ligne.begin(), ::toupper);
             cout << ligne.size() << endl;
-
+            
         }
     }
     else
