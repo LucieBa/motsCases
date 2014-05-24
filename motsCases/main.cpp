@@ -22,7 +22,7 @@ int main()
         window.display();
     }*/
     Grille grille;
-    if( grille.chargerGrille("data/grille3.txt") == false)
+    if( grille.chargerGrille("data/grille-2.txt") == false)
         std::cout << "Une erreur s'est produite lors du chargement de la grille." << std::endl;
     if( grille.chargerMots("data/mots2.txt") == false)
         std::cout << "Une erreur s'est produite lors du chargement des mots." << std::endl;

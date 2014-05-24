@@ -31,6 +31,15 @@ string supprimerAccents(string message)
     return message;
 }
 
+std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems)
+{
+    std::stringstream ss(s);
+    std::string item;
+    while (std::getline(ss, item, delim)) {
+        elems.push_back(item);
+    }
+    return elems;
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -86,9 +95,10 @@ bool Grille::chargerGrille(const std::string& nomFichier)
                 continue;
             else if( i == 1 )
             {
-                //
-                this->l = 5;
-                this->h = 3;               
+                vector<string> elements;
+                split(ligne, ' ', elements);
+                this->l = atoi(elements.at(0).c_str());
+                this->h = atoi(elements.at(1).c_str());               
                 etatGrille.resize(this->l);
                 for(int j = 0 ; j < this->l ; j++)
                 {
@@ -99,9 +109,10 @@ bool Grille::chargerGrille(const std::string& nomFichier)
             }
             else
             {
-                //
-                int x = 1;
-                int y = 0;
+                vector<string> elements;
+                split(ligne, ' ', elements);
+                int x = atoi(elements.at(0).c_str());
+                int y = atoi(elements.at(1).c_str());
                 etatGrille.at(x).at(y) = false;
             }
         }
@@ -143,7 +154,7 @@ void Grille::afficherGrille()
     {
         for(int j = 0; j < this->l ; j++)
         {
-            std::cout << (( this->etatGrille.at(j).at(i) == true) ? "o" : "x") << " ";
+            std::cout << (( this->etatGrille.at(j).at(i) == true) ? "o" : " ") << " ";
         }
         std::cout << std::endl;
     }
