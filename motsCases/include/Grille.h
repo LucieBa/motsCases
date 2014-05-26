@@ -18,7 +18,7 @@ class Grille
 		int h;
 		int l;
         map<int, vector<string> > dictionnaire;
-        vector< vector<bool> > etatGrille;
+        vector< vector<bool> > etatGrille; 
 	public:
 		// getters et setters
 		Grille();

@@ -95,11 +95,13 @@ bool Grille::chargerGrille(const std::string& nomFichier)
                 continue;
             else if( i == 1 )
             {
+                // si c'est la deuxième ligne, alors il s'agit de la taille du tableau. 
                 vector<string> elements;
                 split(ligne, ' ', elements);
                 this->l = atoi(elements.at(0).c_str());
                 this->h = atoi(elements.at(1).c_str());               
                 etatGrille.resize(this->l);
+                // Par défaut on met toutes les cases à true
                 for(int j = 0 ; j < this->l ; j++)
                 {
                     etatGrille.at(j).resize(this->h);
@@ -109,6 +111,7 @@ bool Grille::chargerGrille(const std::string& nomFichier)
             }
             else
             {
+                // ensuite, on traite les cases qui sont bloquées
                 vector<string> elements;
                 split(ligne, ' ', elements);
                 int x = atoi(elements.at(0).c_str());

@@ -1,6 +1,6 @@
 taille de la grille :
 7 11
-coordonnees en x et y des cases bloquees :
+coordonnees en y et x des cases bloquees :
 0 0
 1 0
 2 0
