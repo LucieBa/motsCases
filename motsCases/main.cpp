@@ -26,8 +26,10 @@ int main()
         std::cout << "Une erreur s'est produite lors du chargement de la grille." << std::endl;
     if( grille.chargerMots("data/mots2.txt") == false)
         std::cout << "Une erreur s'est produite lors du chargement des mots." << std::endl;
-    grille.afficherGrille();
+    /*grille.afficherGrille();
+    grille.afficherDictionnaire();*/
     //bool chargement = chargerMots("data/mots2.txt");
+    grille.determinerPossibilites();
 
     /*char *element = "Hello World";
     std::cout << (unsigned long)strlen(element) << std::endl;*/

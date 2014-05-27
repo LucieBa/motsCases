@@ -9,9 +9,9 @@ string supprimerAccents(string message)
     string accent("ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÌÍÎÏìíîïÙÚÛÜùúûüÿÑñÇç");
     string sansAccent("AAAAAAaaaaaaOOOOOOooooooEEEEeeeeIIIIiiiiUUUUuuuuyNnCc");
     int i=0,j=0,k=0,taille;
- 
+
     taille=message.size();
- 
+
     for (i=0;i<=taille;i++)
     {
         for(j=0;j<=104;j=j+2)
@@ -27,7 +27,7 @@ string supprimerAccents(string message)
                 taille=message.size();
             }
         }
-    } 
+    }
     return message;
 }
 
@@ -89,17 +89,17 @@ bool Grille::chargerGrille(const std::string& nomFichier)
         string ligne;
         while(getline(fichier, ligne))
         {
-            i++;            
+            i++;
             // on ignore les lignes de commentaires
             if( i == 0 || i == 2 )
                 continue;
             else if( i == 1 )
             {
-                // si c'est la deuxième ligne, alors il s'agit de la taille du tableau. 
+                // si c'est la deuxième ligne, alors il s'agit de la taille du tableau.
                 vector<string> elements;
                 split(ligne, ' ', elements);
                 this->l = atoi(elements.at(0).c_str());
-                this->h = atoi(elements.at(1).c_str());               
+                this->h = atoi(elements.at(1).c_str());
                 etatGrille.resize(this->l);
                 // Par défaut on met toutes les cases à true
                 for(int j = 0 ; j < this->l ; j++)
@@ -175,6 +175,51 @@ void Grille::afficherDictionnaire()
             {
                 std::cout << this->dictionnaire[i].at(j)<< std::endl;
             }
-        }        
+        }
     }
+}
+
+void Grille::genererEspaces()
+{
+    std::vector<Vecteur> espaceMot;
+    //Vecteur v = Vecteur(0, 0);
+    // boucle pour parcourir les x
+    for(int i = 0; i < this->h ; i++)
+    {
+        for(int j = 0 ; j < this->l ; j++)
+        {
+            if(etatGrille.at(j).at(i) == true)
+            {
+                Vecteur v = Vecteur(j, i);
+                espaceMot.push_back(v);
+                std::cout << i << " et " << j << std::endl;
+                std::cout << espaceMot.size() << std::endl;
+            }
+            else if(etatGrille.at(j).at(i) == false)
+            {
+                if(espaceMot.size() == 0)
+                {
+                    std::cout << i << " et " << j << std::endl;
+                    std::cout << "false et 0" << std::endl;
+                }
+                else if(espaceMot.size() == 1)
+                {
+                    espaceMot.pop_back();
+                }
+            }
+        }
+    }
+
+    //v.setCord(0, 0);
+    // boucle pour parcourir les y
+    /*for(int m = 0; m < this->l ; m++)
+    {
+        for(int n = 0 ; n < this->h ; n++)
+        {
+            if(etatGrille.at(m).at(n) == false)
+            {
+                //std::cout << n << " et " << m << std::endl;
+            }
+        }
+    }*/
 }

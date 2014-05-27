@@ -9,8 +9,18 @@
 #include <algorithm>
 #include <iterator>
 #include <fstream>
+#include "Vecteur.h"
 
 using namespace std;
+
+enum Orientation { HORIZONTAL, VERTICAL };
+
+struct Espace{
+	Vecteur position;
+	Orientation orientation;
+	int longueur;
+};
+
 
 class Grille
 {
@@ -19,6 +29,8 @@ class Grille
 		int l;
         map<int, vector<string> > dictionnaire;
         vector< vector<bool> > etatGrille; 
+        vector<Espace> espaces;
+
 	public:
 		// getters et setters
 		Grille();
@@ -30,6 +42,7 @@ class Grille
 		// les fonctions
 		bool chargerGrille(const string& nomFichier);
 		bool chargerMots(const string& nomFichier);
+		void genererEspaces();
 		void afficherGrille();
 		void afficherDictionnaire();
 };
