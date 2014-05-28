@@ -13,7 +13,7 @@
 
 using namespace std;
 
-enum Orientation { HORIZONTAL, VERTICAL };
+enum Orientation { HORIZONTAL, VERTICAL, INTERSECTION };
 
 struct Espace{
 	Vecteur position;
@@ -45,6 +45,8 @@ class Grille
 		void genererEspaces();
 		void afficherGrille();
 		void afficherDictionnaire();
+		void afficherEspaces();
+		void trouverIntersections();
 };
 
 #endif // GRILLE_H_INCLUDED

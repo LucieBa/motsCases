@@ -157,7 +157,7 @@ void Grille::afficherGrille()
     {
         for(int j = 0; j < this->l ; j++)
         {
-            std::cout << (( this->etatGrille.at(j).at(i) == true) ? "o" : " ") << " ";
+            std::cout << (( this->etatGrille.at(j).at(i) == true) ? "o" : "x") << " ";
         }
         std::cout << std::endl;
     }
@@ -181,45 +181,140 @@ void Grille::afficherDictionnaire()
 
 void Grille::genererEspaces()
 {
-    std::vector<Vecteur> espaceMot;
-    //Vecteur v = Vecteur(0, 0);
-    // boucle pour parcourir les x
+    int longueur = 0;
+
+    this->espaces.clear();
+
+    // on s'occupe de l'horizontal
     for(int i = 0; i < this->h ; i++)
     {
         for(int j = 0 ; j < this->l ; j++)
         {
             if(etatGrille.at(j).at(i) == true)
             {
-                Vecteur v = Vecteur(j, i);
-                espaceMot.push_back(v);
-                std::cout << i << " et " << j << std::endl;
-                std::cout << espaceMot.size() << std::endl;
+                longueur++;
             }
             else if(etatGrille.at(j).at(i) == false)
             {
-                if(espaceMot.size() == 0)
+                if(longueur > 1)
                 {
-                    std::cout << i << " et " << j << std::endl;
-                    std::cout << "false et 0" << std::endl;
+                    Espace espace;
+                    espace.position = Vecteur(j-longueur, i);
+                    espace.orientation = HORIZONTAL;
+                    espace.longueur = longueur;
+                    this->espaces.push_back(espace);
                 }
-                else if(espaceMot.size() == 1)
+                longueur = 0;
+            }
+        }
+
+        // arrivé en fin de ligne
+        if(longueur > 1)
+        {
+            Espace espace;
+            espace.position = Vecteur(this->l - longueur, i);
+            espace.orientation = HORIZONTAL;
+            espace.longueur = longueur;
+            this->espaces.push_back(espace);
+        }
+        longueur = 0;
+    }
+
+    // on s'occupe du vertical
+    for(int i = 0; i < this->l ; i++)
+    {
+        for(int j = 0 ; j < this->h ; j++)
+        {
+            if(etatGrille.at(i).at(j) == true)
+            {
+                longueur++;
+            }
+            else if(etatGrille.at(i).at(j) == false)
+            {
+                if(longueur > 1)
                 {
-                    espaceMot.pop_back();
+                    Espace espace;
+                    espace.position = Vecteur(i, j-longueur);
+                    espace.orientation = VERTICAL;
+                    espace.longueur = longueur;
+                    this->espaces.push_back(espace);
                 }
+                longueur = 0;
+            }
+        }
+
+        // arrivé en fin de ligne
+        if(longueur > 1)
+        {
+            Espace espace;
+            espace.position = Vecteur(i, this->h - longueur);
+            espace.orientation = VERTICAL;
+            espace.longueur = longueur;
+            this->espaces.push_back(espace);
+        }
+        longueur = 0;
+    }
+}
+
+void Grille::afficherEspaces()
+{
+    for(int i = 0 ; i < espaces.size() ; i++)
+    {
+        std::cout << "Position de depart :  x = " << espaces.at(i).position.x << " et y = " << espaces.at(i).position.y;
+        std::cout << ". Longueur du mot : " << espaces.at(i).longueur;
+        // todo : horizontal, vertical
+        std::cout << ". Le mot est en : " << espaces.at(i).orientation << std::endl;
+    }
+}
+
+void Grille::trouverIntersections()
+{
+    vector<Vecteur> cases;
+    // Horizontal
+    for(int a = 0 ; a < this->espaces.size() ; a++)
+    {
+        if(this->espaces.at(a).orientation == HORIZONTAL)
+        {
+            for(int i = 0 ; i < this->espaces.at(a).longueur ; i++)
+            {
+                //std::cout << "???" << std::endl;
+                cases.push_back(Vecteur(this->espaces.at(a).position.x + i, this->espaces.at(a).position.y));
             }
         }
     }
-
-    //v.setCord(0, 0);
-    // boucle pour parcourir les y
-    /*for(int m = 0; m < this->l ; m++)
+    for(int a = 0 ; a < this->espaces.size() ; a++)
     {
-        for(int n = 0 ; n < this->h ; n++)
+        if(this->espaces.at(a).orientation == VERTICAL)
         {
-            if(etatGrille.at(m).at(n) == false)
+            for(int i = 0 ; i < this->espaces.at(a).longueur ; i++)
             {
-                //std::cout << n << " et " << m << std::endl;
+                //std::cout << "???" << std::endl;
+                cases.push_back(Vecteur(this->espaces.at(a).position.x, this->espaces.at(a).position.y+i));
             }
         }
-    }*/
+    }
+    for(int i = 0 ; i < cases.size() ; i++)
+    {
+        //std::cout << "i " << i << std::endl;
+        for(int j = 0 ; j < cases.size() ; j++)
+        {
+            //std::cout << "j " << j << std::endl;
+            if( i != j)
+            {
+                //std::cout << "i " << i << " j " << j << std::endl;
+                /*std::cout << cases.at(i).x << " =? " << cases.at(j).x << std::endl;
+                std::cout << cases.at(i).y << " =? " << cases.at(j).y << std::endl;
+                std::cout << std::endl;*/
+                if(cases.at(i).x == cases.at(j).x && cases.at(i).y == cases.at(j).y)
+                {
+                    Espace espace;
+                    espace.position = Vecteur(cases.at(i).x, cases.at(i).y);
+                    espace.orientation = INTERSECTION;
+                    espace.longueur = 1;
+                    espaces.push_back(espace);
+                }
+            }
+
+        }
+    }
 }
