@@ -16,9 +16,11 @@ using namespace std;
 enum Orientation { HORIZONTAL, VERTICAL, INTERSECTION };
 
 struct Espace{
-	Vecteur position;
-	Orientation orientation;
-	int longueur;
+    Vecteur position;
+    Orientation orientation;
+    int longueur;
+    // utilisé uniquement pour la génération
+    string mot;
 };
 
 
@@ -27,11 +29,12 @@ class Grille
 	private:
 		int h;
 		int l;
-        map<int, vector<string> > dictionnaire;
-        vector< vector<bool> > etatGrille; 
-        vector<Espace> espaces;
+        vector< vector<bool> > etatGrille;
+        int note;
 
-	public:
+	public:		
+        map<int, vector<string> > dictionnaire;
+        vector<Espace> espaces;
 		// getters et setters
 		Grille();
 		~Grille();

@@ -41,14 +41,13 @@ std::vector<std::string> &split(const std::string &s, char delim, std::vector<st
     return elems;
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //		Constructeur, destructeur, setters, getters
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Grille::Grille()
 {
-
+    this->note = 0;
 }
 
 Grille::~Grille()
@@ -282,29 +281,23 @@ void Grille::trouverIntersections()
             }
         }
     }
+    // Vertical
     for(int a = 0 ; a < this->espaces.size() ; a++)
     {
         if(this->espaces.at(a).orientation == VERTICAL)
         {
             for(int i = 0 ; i < this->espaces.at(a).longueur ; i++)
             {
-                //std::cout << "???" << std::endl;
                 cases.push_back(Vecteur(this->espaces.at(a).position.x, this->espaces.at(a).position.y+i));
             }
         }
     }
     for(int i = 0 ; i < cases.size() ; i++)
     {
-        //std::cout << "i " << i << std::endl;
         for(int j = 0 ; j < cases.size() ; j++)
         {
-            //std::cout << "j " << j << std::endl;
             if( i != j)
             {
-                //std::cout << "i " << i << " j " << j << std::endl;
-                /*std::cout << cases.at(i).x << " =? " << cases.at(j).x << std::endl;
-                std::cout << cases.at(i).y << " =? " << cases.at(j).y << std::endl;
-                std::cout << std::endl;*/
                 if(cases.at(i).x == cases.at(j).x && cases.at(i).y == cases.at(j).y)
                 {
                     Espace espace;
@@ -318,3 +311,5 @@ void Grille::trouverIntersections()
         }
     }
 }
+
+
