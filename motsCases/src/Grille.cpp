@@ -10,7 +10,7 @@ std::string supprimerAccents(std::string message)
     std::string sansAccent("AAAAAAaaaaaaOOOOOOooooooEEEEeeeeIIIIiiiiUUUUuuuuyNnCc");
     int i=0,j=0,k=0,taille;
 
-    taille=message.size();
+    taille= (int) message.size();
 
     for (i=0;i<=taille;i++)
     {
@@ -24,7 +24,7 @@ std::string supprimerAccents(std::string message)
                     message[k]=message[k+1];
                 }
                 message=message.substr(0,taille-1);
-                taille=message.size();
+                taille= (int) message.size();
             }
         }
     }
@@ -76,7 +76,7 @@ int Grille::getL()
 
 int Grille::getNoteMax()
 {
-    return this->intersections.size() * 10;
+    return (int) (this->intersections.size() * 10);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -143,7 +143,7 @@ bool Grille::chargerMots(const std::string& nomFichier)
             ligne = supprimerAccents(ligne);
             // todo : tronquer les espaces et les chiffres
             std::transform(ligne.begin(), ligne.end(), ligne.begin(), ::toupper);
-            this->dictionnaire[ligne.size()].push_back(ligne);
+            this->dictionnaire[(int)ligne.size()].push_back(ligne);
         }
     }
     else
@@ -298,48 +298,52 @@ void Grille::afficherEspaces()
 
 void Grille::afficherGeneration( const std::vector<Proposition>& propositions )
 {
-    int largeur = this->getL() + 1; // On ajoute 1 colonne au tableau pour les sauts de ligne.
-    int nombreCases = (largeur * this->getH()) + 1;
-    char* resultat = new char(nombreCases);
-
-    // Rempli le tableau de croix.
-    for( int i = 0; i < nombreCases; i++)
-        resultat[i] = 'x';
-    resultat[nombreCases-1] = '\0';
-
-    // Ajoute les lettres au tableau
-    for( int i = 0; i < propositions.size(); i++)
+	// On crée un tableau qu'on va remplir avec les lettres.
+	std::vector<std::vector<int>> array;
+	array.resize(this->getH());
+	for( int i = 0; i < array.size(); i++)
+		array.at(i).resize(this->getL());
+	
+	// On remplis le tableau de croix par defaut.
+	for( int i = 0; i < array.size(); i++ )
+		for( int j = 0; j < array.at(i).size(); j++ )
+			array.at(i).at(j) = -1;
+	
+	// On remplis le tableau avec la liste de propositions.
+	for( int i = 0; i < propositions.size(); i++)
     {
-        if( propositions.at(i).orientation == HORIZONTAL )
+		const Proposition& proposition = propositions.at(i);
+
+        if( proposition.orientation == HORIZONTAL )
         {
-            int positionTableau = propositions.at(i).position.x + ( largeur * propositions.at(i).position.y);
-            for( int j = 0; j < propositions.at(i).mot.size(); j++)
+            for( int j = 0; j < proposition.mot.size(); j++)
             {
-                resultat[positionTableau+j] = propositions.at(i).mot.at(j);
+				array.at(proposition.position.y).at(proposition.position.x + j) = proposition.mot.at(j);
             }
         }
         else
         {
-            for( int j = 0; j < propositions.at(i).mot.size(); j++)
-            {
-                int positionTableau = propositions.at(i).position.x + ( largeur * (propositions.at(i).position.y+j));
-                resultat[positionTableau] = propositions.at(i).mot.at(j);
-            }
-        }
-    }
+			for( int j = 0; j < propositions.at(i).mot.size(); j++)
+			{
+				//array.at(proposition.position.y+j).at(proposition.position.x) = proposition.mot.at(j);
+			}
+		}
+	}
 
-    // On termine par ajouter les sauts de lignes
-    for( int i = 1; i < this->getH(); i++ )
-    {
-        int sautCase = (largeur * i) - 1; // On part de 0 dans un tableau donc -1.
-        resultat[sautCase] = '\n';
-    }
-    resultat[nombreCases-2] = '\n';
+	// On transforme le tableau en chaine à afficher tout en mettant en forme le tout.
+	for( int i = 0; i < array.size(); i++ )
+	{
+		for( int j = 0; j < array.at(i).size(); j++ )
+		{
+			if( array.at(i).at(j) == -1 )
+				std::cout << (char) 35;		// Affiche le caractere "#"
+			else
+				std::cout << (char) array.at(i).at(j);
 
-    std::cout << resultat << std::endl;
-
-    delete resultat;
-
+			std::cout << " ";
+		}
+		std::cout << std::endl;
+	}
 }
 
 void Grille::trouverIntersections()

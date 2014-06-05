@@ -37,7 +37,7 @@ std::vector<Proposition> genererPopulation(Grille& grille)
       if(listeMots != grille.dictionnaire.end())
       {
           int random = 0;
-          int nombreMots = listeMots->second.size();
+          unsigned long nombreMots = listeMots->second.size();
           if(motsCompteurs.find(longueur) != motsCompteurs.end() && motsCompteurs[longueur] == nombreMots)
           {
             std::cout << "Grille invalide !!!" << std::endl;

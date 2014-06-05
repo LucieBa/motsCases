@@ -14,47 +14,83 @@ int main()
     // Configuration
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     std::srand((unsigned int)std::time(0));
+	bool debug = true;	// True = affiche des informations sur la grille.
     Grille grille;
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Interactions
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    std::cout << "Vous etes dans la phase de configuration" << std::endl;
+	std::cout << "--------------------------------" << std::endl;
+    std::cout << "\\ Bienvenue dans \"Mot croises\" / " << std::endl;
+	std::cout << "--------------------------------" << std::endl;
 	
-    // todo : invite de commande, quels sont les fichiers à dl
-    if( grille.chargerGrille("data/grille2.txt") == false)
+	// Noms des fichiers par defaut a charger.
+	std::string nomGrille	 = "grille2";
+	std::string nomListeMots = "mots2";
+	
+	// Invite de commande.
+	{
+		std::cout << "Nom de la grille a charger (sans extension) : ";
+		std::cin >> nomGrille;
+		std::cin.clear();
+		std::cin.ignore();
+		
+		std::cout << "Nom de la liste de mots a charger (sans extension) : ";
+		std::cin >> nomListeMots;
+		std::cin.clear();
+		std::cin.ignore();
+	}
+	
+	
+    if( grille.chargerGrille("data/" + nomGrille + ".txt") == false)
 	{
         std::cout << "Une erreur s'est produite lors du chargement de la grille." << std::endl;
 		return EXIT_FAILURE;
 	}
-    if( grille.chargerMots("data/mots2.txt") == false)
+	std::cout << "-> Chargement du fichier " << nomGrille << ".txt : OK" << std::endl;
+
+    if( grille.chargerMots("data/" + nomListeMots + ".txt") == false)
 	{
         std::cout << "Une erreur s'est produite lors du chargement des mots." << std::endl;
 		return EXIT_FAILURE;
 	}
-    grille.afficherGrille();
-	
-    //grille.afficherDictionnaire();
-    //bool chargement = chargerMots("data/mots2.txt");
+	std::cout << "-> Chargement du fichier " << nomListeMots << ".txt : OK" << std::endl;
+
     grille.genererEspaces();
     grille.trouverIntersections();
-    grille.afficherIntersections();
-    //grille.afficherEspaces();
-
-    /* todo : taille de la population
-    int taillePop;
-    std::cout << "Veuillez définir la taille initiale de la population : " << std::endl;
-    std::cin >> taillePop;*/
-
-    /* todo : taux de mutation
-    int tauxMutation;
-    std::cout << "Veuillez définir le taux de mutation de la population : " << std::endl;
-    std::cin >> tauxMutation;*/
+	
+	// Test: Affiche certaines informations sur la grille en cours.
+	if(debug)
+	{
+		std::cout << std::endl << "Grille : " << std::endl;
+		std::cout << "----------------------" << std::endl;
+		grille.afficherGrille();
+		std::cout << std::endl << "Liste des mots : " << std::endl;
+		std::cout << "----------------------" << std::endl;
+		grille.afficherDictionnaire();
+		std::cout << std::endl << "Espaces trouves : " << std::endl;
+		std::cout << "----------------------" << std::endl;
+		grille.afficherEspaces();
+		std::cout << std::endl << "Position des intersections : " << std::endl;
+		std::cout << "----------------------" << std::endl;
+		grille.afficherIntersections();
+	}
+	
+    int taillePop = 2000;
+   /* std::cout << "Taille initiale de la population : ";
+    std::cin >> taillePop;
+	std::cin.clear();
+	std::cin.ignore();*/
+/*
+    int tauxMutation = 1;
+    std::cout << "Taux de mutation de la population : ";
+    std::cin >> tauxMutation;
+	std::cin.clear();
+	std::cin.ignore();*/
 
     // Génération de la population + attribution de la note
-
     std::vector<Generation> generations;
-    for(unsigned int j=0 ; j<100 ; j++)
+    for( unsigned int j = 0 ; j< taillePop; j++ )
     {
         Generation generation;
         generation.propositions = genererPopulation(grille);
@@ -98,16 +134,11 @@ int main()
 
     } while(true);
 
-    std::cout << "Grille terminee ! (note: " << generationFinale.note << ")" << std::endl;
+	std::cout << std::endl << "----------------------" << std::endl;
+    std::cout << "Grille terminee (note: " << generationFinale.note << ")" << std::endl;
+	std::cout << "----------------------" << std::endl;
     grille.afficherGeneration(generationFinale.propositions);
 
-    /*char *element = "Hello World";
-    std::cout << (unsigned long)strlen(element) << std::endl;*/
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
+	std::cout << std::endl << std::endl;
     return 0;
 }
