@@ -1,4 +1,3 @@
-#include <SFML/Graphics.hpp>
 #include <stdlib.h>
 #include <time.h>
 #include <algorithm>
@@ -9,30 +8,32 @@
 #include "include/Fonctions.h"
 
 
-
 int main()
 {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Configuration
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //srand (time(NULL));
-    std::srand(std::time(0));
-    //bool play               = true;
-    //bool success            = false;
+    std::srand((unsigned int)std::time(0));
     Grille grille;
-
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Interactions
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     std::cout << "Vous etes dans la phase de configuration" << std::endl;
+	
     // todo : invite de commande, quels sont les fichiers à dl
     if( grille.chargerGrille("data/grille2.txt") == false)
+	{
         std::cout << "Une erreur s'est produite lors du chargement de la grille." << std::endl;
+		return EXIT_FAILURE;
+	}
     if( grille.chargerMots("data/mots2.txt") == false)
+	{
         std::cout << "Une erreur s'est produite lors du chargement des mots." << std::endl;
+		return EXIT_FAILURE;
+	}
     grille.afficherGrille();
-    std::cout << std::endl;
+	
     //grille.afficherDictionnaire();
     //bool chargement = chargerMots("data/mots2.txt");
     grille.genererEspaces();
