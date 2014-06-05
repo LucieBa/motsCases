@@ -11,16 +11,17 @@
 #include <fstream>
 #include "Vecteur.h"
 
-using namespace std;
 
-enum Orientation { HORIZONTAL, VERTICAL, INTERSECTION };
+enum Orientation { HORIZONTAL, VERTICAL };
 
 struct Espace{
     Vecteur position;
     Orientation orientation;
     int longueur;
-    // utilisé uniquement pour la génération
-    string mot;
+};
+
+struct Proposition:public Espace{
+    std::string mot;
 };
 
 
@@ -29,12 +30,12 @@ class Grille
 	private:
 		int h;
 		int l;
-        vector< vector<bool> > etatGrille;
-        int note;
+        std::vector< std::vector<bool> > etatGrille;
 
-	public:		
-        map<int, vector<string> > dictionnaire;
-        vector<Espace> espaces;
+	public:
+        std::map<int, std::vector<std::string> > dictionnaire;
+        std::vector<Espace> espaces;
+        std::vector<Vecteur> intersections;
 		// getters et setters
 		Grille();
 		~Grille();
@@ -42,13 +43,16 @@ class Grille
 		int getH();
 		void setL(int val);
 		int getL();
+		int getNoteMax();
 		// les fonctions
-		bool chargerGrille(const string& nomFichier);
-		bool chargerMots(const string& nomFichier);
+		bool chargerGrille(const std::string& nomFichier);
+		bool chargerMots(const std::string& nomFichier);
 		void genererEspaces();
 		void afficherGrille();
 		void afficherDictionnaire();
 		void afficherEspaces();
+		void afficherGeneration( const std::vector<Proposition>& propositions );
+		void afficherIntersections();
 		void trouverIntersections();
 };
 
